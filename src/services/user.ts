@@ -2,13 +2,18 @@ import { compare, hash } from "bcrypt";
 import { LoginDto, Register } from "../types/userDTO";
 import User from '../models/user'
 import jwt from 'jsonwebtoken'
+import Ammuntion from "../models/Ammuntion";
 
 
 export const createNewUser = async (user: Register) => {
     try {
       if(!user.password || !user.username || !user.organition) throw new Error("Missing user data, is require")
       const encPass = await hash(user.password, 10);
-      user.password = encPass;
+      user.password = encPass; 
+      const ammuntionFromDb = await Ammuntion.findOne({ name: user.organition }).lean();
+      if(ammuntionFromDb){
+      user.ammuntion = ammuntionFromDb.resources
+      }
       const newUser = new User(user);
       return await newUser.save();
     } catch (err) {
@@ -43,6 +48,4 @@ export const createNewUser = async (user: Register) => {
 
 
 
-  ///
-
-  
+ 

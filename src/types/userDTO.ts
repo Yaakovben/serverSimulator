@@ -1,4 +1,5 @@
 export interface Register{
+    ammuntion: any
     username:string
     password:string
     organition:string

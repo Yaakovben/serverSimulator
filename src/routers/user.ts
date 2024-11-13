@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { LoginDto, Register } from "../types/userDTO";
-import { createNewUser, initDatabase, userLogin } from "../services/user";
+import { createNewUser, userLogin } from "../services/user";
 
 export const register = async (req: Request<Register>, res: Response) => {
     try {
@@ -22,12 +22,4 @@ export const login = async (req: Request<LoginDto>, res: Response) => {
   };
 
 
-  export const sid = async (req: Request, res: Response) => {
-    try {
-      await initDatabase();
-      res.sendStatus(201);
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(400);
-    }
-  };
+  

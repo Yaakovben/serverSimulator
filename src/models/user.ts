@@ -5,17 +5,18 @@ export interface IUser extends Document {
     password:string
     organition:string
     location?:string
-    ammuntion:Types.ObjectId | null,
+    ammuntion:[{name:String, amount:Number}]
 }
 
 const userSchema = new Schema<IUser>({
     username:{
         type:String,
-        unique:true,
+        required:true,
+        unique:true
     },
     password:{ 
         type:String,
-        unique:true
+        required:true
     },
     organition:{
         type:String,
@@ -24,10 +25,8 @@ const userSchema = new Schema<IUser>({
         type:String,
     },
     ammuntion:{
-        type:Schema.ObjectId,
-        ref:"Missiled"
+        type:[{name:String, amount:Number}]
     }
-
 })
 
 export default model<IUser>("User",userSchema)
