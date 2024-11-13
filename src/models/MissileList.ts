@@ -16,7 +16,8 @@ const MissileListSchema = new Schema<IMissileList>({
     type:String
    },
    status:{
-    type:statusMissile
+    type:statusMissile,
+    default:statusMissile.Launched
    }
    
 })
