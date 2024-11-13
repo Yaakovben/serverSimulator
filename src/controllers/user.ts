@@ -1,9 +1,9 @@
 import {Router} from 'express'
-import { login, register, sid } from '../routers/user'
+import { login, register } from '../routers/user'
 
 const router = Router()
 
-router.post('/sid',sid)
+
 
 router.post('/register', register )
 
