@@ -4,7 +4,6 @@ import User from '../models/user'
 import jwt from 'jsonwebtoken'
 import Ammuntion from "../models/Ammuntion";
 
-
 export const createNewUser = async (user: Register) => {
     try {
       console.log("YNAL ABUK")
@@ -37,7 +36,6 @@ export const createNewUser = async (user: Register) => {
       if (!userFromDatabase) throw new Error("user not found");
       const match = await compare(user.password, userFromDatabase.password);
       if (!match) throw new Error("wrong password");
-  
       // get token 
       const token = jwt.sign({
         user_id: userFromDatabase._id,
@@ -47,8 +45,7 @@ export const createNewUser = async (user: Register) => {
     {
       expiresIn:"10m"
     }
-  );
-      
+  ); 
       return {...userFromDatabase, token, password:"********"};
     } catch (err) {
       throw err;

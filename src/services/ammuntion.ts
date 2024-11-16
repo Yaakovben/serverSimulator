@@ -1,6 +1,5 @@
 import Ammuntion from '../models/Ammuntion'
 
-
 export const initDatabase = async () => {
     try {
       const ammuntions = [

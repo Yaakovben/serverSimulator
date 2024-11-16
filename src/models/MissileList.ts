@@ -19,7 +19,6 @@ const MissileListSchema = new Schema<IMissileList>({
     type:statusMissile,
     default:statusMissile.Launched
    }
-   
 })
 
 export default model<IMissileList>("Missile_List",MissileListSchema)    

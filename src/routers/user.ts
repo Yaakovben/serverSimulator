@@ -11,7 +11,6 @@ export const register = async (req: Request<Register>, res: Response) => {
   }
 };
 
-
 export const login = async (req: Request<LoginDto>, res: Response) => {
     try {
       const loggedUser = await userLogin(req.body)

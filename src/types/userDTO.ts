@@ -8,7 +8,6 @@ export interface Register{
 
 }
 
-
 export interface LoginDto{
     username:string
     password:string
