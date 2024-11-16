@@ -6,7 +6,7 @@ import Ammuntion from "../models/Ammuntion";
 
 export const createNewUser = async (user: Register) => {
     try {
-      console.log("YNAL ABUK")
+      console.log("YNAL ABUK ")
       if(!user.password || !user.username || !user.organition) throw new Error("Missing user data, is require")
       const encPass = await hash(user.password, 10);
       user.password = encPass;
