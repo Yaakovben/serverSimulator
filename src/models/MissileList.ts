@@ -22,4 +22,4 @@ const MissileListSchema = new Schema<IMissileList>({
    
 })
 
-export default model<IMissileList>("Missile_List",MissileListSchema)
+export default model<IMissileList>("Missile_List",MissileListSchema)    

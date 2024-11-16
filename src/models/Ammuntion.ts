@@ -17,7 +17,7 @@ const ammuntionSchema = new Schema<IMissiles>({
         type:[{name:String, amount:Number}]
         
     },
-    budget:{
+    budget:{    
         type:Number
     }
 

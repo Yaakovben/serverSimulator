@@ -7,15 +7,24 @@ import Ammuntion from "../models/Ammuntion";
 
 export const createNewUser = async (user: Register) => {
     try {
+      console.log("YNAL ABUK")
       if(!user.password || !user.username || !user.organition) throw new Error("Missing user data, is require")
       const encPass = await hash(user.password, 10);
-      user.password = encPass; 
-      const ammuntionFromDb = await Ammuntion.findOne({ name: user.organition }).lean();
-      if(ammuntionFromDb){
-      user.ammuntion = ammuntionFromDb.resources
-      }
+      user.password = encPass;
+       let ammuntionFromDb
+       if(user.organition =="IDF"){
+         console.log(user.organition);
+         if(!user.location) throw new Error("Missing Location data, is require")
+          ammuntionFromDb = await Ammuntion.findOne({ name: user.location }).lean();
+      }else{
+        ammuntionFromDb = await Ammuntion.findOne({ name: user.organition }).lean();
+    }
+    if(ammuntionFromDb){
+    user.ammuntion = ammuntionFromDb.resources
+    }
       const newUser = new User(user);
       return await newUser.save();
+      
     } catch (err) {
       console.log(err);
       throw new Error("Can't create new user");
