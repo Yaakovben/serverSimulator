@@ -4,17 +4,17 @@ import User from '../models/user'
 import { statusMissile } from '../types/enum';
 
 export const handelconnection = (client:Socket) =>{
-    console.log("[Service] The connect for the Socket client very Goof");
-    client.on("attackFire", async(dataMissile,dataUser)=>{
+    console.log(`[Service] The connect for the Socket client very Goof"${client.id}`);
+    client.on("attackFire", async(missileName,locationMissile,userName)=>{
       const newMissile = {
-        name:dataMissile.name,
-        location:dataMissile.location,
+        name:missileName.name,
+        location:locationMissile.location,
         status:statusMissile.Hit
       }
         const newAttack = new Missile_List(newMissile)
         await newAttack.save();
         await User.findOneAndUpdate(
-          { username:dataUser.name, "ammuntion.name": dataMissile.name }, 
+          { username:userName.name, "ammuntion.name": missileName.name }, 
           { $inc: { "ammuntion.amount": -1 } },
         )
      }   

@@ -16,9 +16,9 @@ const MissileListSchema = new Schema<IMissileList>({
     type:String
    },
    status:{
-    type:statusMissile,
+    type:String,
+    enum:statusMissile,
     default:statusMissile.Launched
    }
 })
-
 export default model<IMissileList>("Missile_List",MissileListSchema)    
