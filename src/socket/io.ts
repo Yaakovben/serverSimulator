@@ -5,9 +5,10 @@ import { statusMissile } from '../types/enum';
 
 export const handelconnection = async (client:Socket) =>{
     console.log(`[Service] The connect for the Socket client very Goof"${client.id}`);
-    const missileListToClient = await Missile_List.find({}).lean();
-    client.emit("listMissiles",missileListToClient)
-    client.on("attackFire", async(missileName,locationMissile,userName)=>{
+    client.on("start",async()=>{
+      const missileListToClient = await Missile_List.find({}).lean();
+      client.emit("listMissiles",missileListToClient)})
+      client.on("attackFire", async(missileName,locationMissile,userName)=>{
       const newMissile = {
         name:missileName,
         location:locationMissile,
@@ -20,19 +21,22 @@ export const handelconnection = async (client:Socket) =>{
           { username:userName, "ammuntion.name": missileName }, 
           { $inc: { "ammuntion.$.amount": -1 } },
         )
-        // const missileListToClient =await Missile_List.find({}).lean();
-        // console.log(`STOPPPPPP⛔      ${missileListToClient}`);
-        // client.emit("listMissiles",missileListToClient)
+        const updateMissileListToClient =await Missile_List.find({}).lean();
+        client.emit("updatelistMissiles",updateMissileListToClient)
      }   
     )
-    //  client.on("defensiveFire", async(dataMissile,dataUser)=>{
-    //     const missileList = await Missile_List.findOne({location:dataMissile.location, name:dataMissile.name}).lean();
-    //   if(missileList){
-    //   missileList.status = statusMissile.Intercepted
-    //   }
-    //   await User.findOneAndUpdate(
-    //     { username:dataUser.name, "ammuntion.name": dataMissile.name }, 
-    //     { $inc: { "ammuntion.amount": -1 } },
-    //   )
-    //  })
+     client.on("defensiveFire", async(missileLocation,missileName,userName)=>{
+        const missileList = await Missile_List.findOne({location:missileLocation, name:missileName})
+      if(missileList){
+      missileList.status = statusMissile.Intercepted
+      missileList.save()
+      }
+      await User.findOneAndUpdate(
+        { username:userName, "ammuntion.name": missileName }, 
+        { $inc: { "ammuntion.amount": -1 }},
+      )
+      const updatedMissileList = await Missile_List.find({}).lean();
+      client.emit("updatelistMissiles", updatedMissileList);
+      
+     })
 }
