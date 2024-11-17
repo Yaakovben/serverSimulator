@@ -3,6 +3,7 @@ import { statusMissile } from "../types/enum";
 
 
 export interface IMissileList extends Document {
+    username:string
     name:string
     location:string
     time:number
@@ -10,6 +11,9 @@ export interface IMissileList extends Document {
 }
 
 const MissileListSchema = new Schema<IMissileList>({
+    username:{
+        type:String
+    },
     name:{
         type:String, 
     },

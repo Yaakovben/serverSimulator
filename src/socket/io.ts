@@ -5,10 +5,13 @@ import { statusMissile } from '../types/enum';
 
 export const handelconnection = async (client:Socket) =>{
     console.log(`[Service] The connect for the Socket client very Goof"${client.id}`);
-    client.on("start",async()=>{
-      const missileListToClient = await Missile_List.find({}).lean();
+    client.on("startDefensive",async(location)=>{
+      const missileListToClient = await Missile_List.find({location:location}).lean();
       client.emit("listMissiles",missileListToClient)})
-      client.on("attackFire", async(missileName,locationMissile,userName)=>{
+    client.on("startAttack",async()=>{
+      const missileListToClient = await Missile_List.find({}).lean();
+      client.emit("listMissilesforAttack",missileListToClient)})
+      client.on("attackFire",async(missileName,locationMissile,userName)=>{
       const newMissile = {
         name:missileName,
         location:locationMissile,
@@ -35,8 +38,7 @@ export const handelconnection = async (client:Socket) =>{
         { username:userName, "ammuntion.name": missileName }, 
         { $inc: { "ammuntion.amount": -1 }},
       )
-      const updatedMissileList = await Missile_List.find({}).lean();
-      client.emit("updatelistMissiles", updatedMissileList);
-      
+      const updateMissileListToClient =await Missile_List.find({}).lean();
+        client.emit("updatelistMissiles",updateMissileListToClient)
      })
 }
